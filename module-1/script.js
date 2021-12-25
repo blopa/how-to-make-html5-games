@@ -23,6 +23,9 @@ context.fillRect(
   5
 );
 
+var points = 0;
+context.fillText(points, 20, 20);
+
 
 window.onkeydown = function(event) {
 //  console.log(event);
@@ -69,6 +72,8 @@ window.onkeydown = function(event) {
     5
   );
 
+  context.fillText(points, 20, 20);
+
   if (
     heroPosition.x < itemPosition.x + 5
     && heroPosition.x > itemPosition.x - 5
@@ -101,6 +106,13 @@ window.onkeydown = function(event) {
       5,
       5
     );
+
+    points = points + 1;
+    context.fillText(points, 20, 20);
+
+    if (points >= 5) {
+      alert("Game Over!");
+    }
   }
 }
 
