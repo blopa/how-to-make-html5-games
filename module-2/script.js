@@ -22,14 +22,25 @@ window.onkeyup = function(event) {
   actionKeyPressed = false;
 }
 
+// points
+var points = 0;
+
 // pipes
+function getRandomNum() {
+  var rand = Math.floor(
+    Math.random() * canvas.height
+  );
+
+  return Math.min(canvas.height - holeSize, rand);
+}
+
 var pipeWidth = 20
 var holeSize = 80;
 var initialHoles = [
   { x: 100, y: 50 },
-  { x: 200, y: 50 },
-  { x: 300, y: 50 },
-  { x: 400, y: 50 },
+  { x: 200, y: 100 },
+  { x: 300, y: getRandomNum() },
+  { x: 400, y: getRandomNum() },
 ];
 
 // this runs 60 times per second
@@ -40,8 +51,6 @@ window.setInterval(function() {
     canvas.width,
     canvas.height
   );
-
-
 
   heroPosition.y = Math.min(
     canvas.height - heroSize,
@@ -72,6 +81,7 @@ window.setInterval(function() {
 
     if (hole.x + pipeWidth <= 0) {
       hole.x = canvas.width;
+      hole.y = getRandomNum();
     }
 
     // fill a full height line
@@ -89,6 +99,19 @@ window.setInterval(function() {
       holeSize,
       holeSize
     );
+
+    if (
+      heroPosition.x < hole.x + pipeWidth
+      && heroPosition.x > hole.x
+    ) {
+      if (heroPosition.y < hole.y + holeSize
+        && heroPosition.y > hole.y
+      ) {
+        points = points + 1;
+      } else {
+        points = 0;
+      }
+    }
   });
 
   context.fillRect(
@@ -97,4 +120,7 @@ window.setInterval(function() {
     heroSize,
     heroSize
   );
+
+  context.font = "30px Arial";
+  context.fillText(points, 25, 25);
 }, 1000 / 60);
